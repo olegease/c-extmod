@@ -1,5 +1,5 @@
 #include "bool.h"
-#include <stdio.h>
+
 bool False()
 {
     bool b = {FALSE};

@@ -9,7 +9,7 @@ typedef bool* bool_;
 
 struct bool
 {
-    _Bool is;
+    _Bool b;
 };
 
 bool False();
