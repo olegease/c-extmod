@@ -1,0 +1,41 @@
+#ifndef _EXTMOD_PRIMITIVE_INT16_H_
+#define _EXTMOD_PRIMITIVE_INT16_H_
+
+#include <limits.h>
+
+#define EXTMOD_CHECK_SYSTEM_SUPPORT_INT16
+#define EXTMOD_EXPECTED_INT16_MIN -32768
+#define EXTMOD_EXPECTED_INT16_MAX 32767
+
+#if EXTMOD_EXPECTED_INT16_MIN==SCHAR_MIN && SCHAR_MAX==EXTMOD_EXPECTED_INT16_MAX
+typedef signed char i16;
+#elif EXTMOD_EXPECTED_INT16_MIN==SHRT_MIN && SHRT_MAX==EXTMOD_EXPECTED_INT16_MAX
+typedef signed short i16;
+#elif EXTMOD_EXPECTED_INT16_MIN==INT_MIN && INT_MAX==EXTMOD_EXPECTED_INT16_MAX
+typedef signed int i16;
+#elif EXTMOD_EXPECTED_INT16_MIN==LONG_MIN && LONG_MAX==EXTMOD_EXPECTED_INT16_MAX
+typedef signed long int i16;
+#elif EXTMOD_EXPECTED_INT16_MIN==LLONG_MIN && LLONG_MAX==EXTMOD_EXPECTED_INT16_MAX
+typedef signed long long int i16;
+#else
+    #ifdef EXTMOD_WARNING_ON_UNSUPPORTED_INTEGER_TYPE
+        #warning System not support 16 bit integer
+    #else
+        #error System not support 16 bit integer (and you know this!)
+    #endif // EXTMOD_WARNING_ON_UNSUPPORTED_INTEGER_TYPE
+    #undef EXTMOD_CHECK_SYSTEM_SUPPORT_INT16
+#endif // EXTMOD_EXPECTED_INT16_MIN && EXTMOD_EXPECTED_INT16_MAX
+
+#ifdef EXTMOD_CHECK_SYSTEM_SUPPORT_INT16
+typedef struct int16 int16;
+typedef int16* int16_;
+
+struct int16
+{
+    i16 i;
+};
+
+int16 Int16(i16);
+#endif // EXTMOD_CHECK_SYSTEM_SUPPORT_INT16
+
+#endif // _EXTMOD_PRIMITIVE_INT16_H_

@@ -1,0 +1,41 @@
+#ifndef _EXTMOD_PRIMITIVE_INT32_H_
+#define _EXTMOD_PRIMITIVE_INT32_H_
+
+#include <limits.h>
+
+#define EXTMOD_CHECK_SYSTEM_SUPPORT_INT32
+#define EXTMOD_EXPECTED_INT32_MIN -2147483648UL
+#define EXTMOD_EXPECTED_INT32_MAX 2147483647L
+
+#if EXTMOD_EXPECTED_INT32_MIN==SCHAR_MIN && SCHAR_MAX==EXTMOD_EXPECTED_INT32_MAX
+typedef signed char i32;
+#elif EXTMOD_EXPECTED_INT32_MIN==SHRT_MIN && SHRT_MAX==EXTMOD_EXPECTED_INT32_MAX
+typedef signed short i32;
+#elif EXTMOD_EXPECTED_INT32_MIN==INT_MIN && INT_MAX==EXTMOD_EXPECTED_INT32_MAX
+typedef signed int i32;
+#elif EXTMOD_EXPECTED_INT32_MIN==LONG_MIN && LONG_MAX==EXTMOD_EXPECTED_INT32_MAX
+typedef signed long int i32;
+#elif EXTMOD_EXPECTED_INT32_MIN==LLONG_MIN && LLONG_MAX==EXTMOD_EXPECTED_INT32_MAX
+typedef signed long long int i32;
+#else
+    #ifdef EXTMOD_WARNING_ON_UNSUPPORTED_INTEGER_TYPE
+        #warning System not support 32 bit integer
+    #else
+        #error System not support 32 bit integer (and you know this!)
+    #endif // EXTMOD_WARNING_ON_UNSUPPORTED_INTEGER_TYPE
+    #undef EXTMOD_CHECK_SYSTEM_SUPPORT_INT32
+#endif // EXTMOD_EXPECTED_INT32_MIN && EXTMOD_EXPECTED_INT32_MAX
+
+#ifdef EXTMOD_CHECK_SYSTEM_SUPPORT_INT32
+typedef struct int32 int32;
+typedef int32* int32_;
+
+struct int32
+{
+    i32 i;
+};
+
+int32 Int32(i32);
+#endif // EXTMOD_CHECK_SYSTEM_SUPPORT_INT32
+
+#endif // _EXTMOD_PRIMITIVE_INT32_H_

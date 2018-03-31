@@ -1,0 +1,41 @@
+#ifndef _EXTMOD_PRIMITIVE_INT64_H_
+#define _EXTMOD_PRIMITIVE_INT64_H_
+
+#include <limits.h>
+
+#define EXTMOD_CHECK_SYSTEM_SUPPORT_INT64
+#define EXTMOD_EXPECTED_INT64_MIN -9223372036854775808ULL
+#define EXTMOD_EXPECTED_INT64_MAX 9223372036854775807LL
+
+#if EXTMOD_EXPECTED_INT64_MIN==SCHAR_MIN && SCHAR_MAX==EXTMOD_EXPECTED_INT64_MAX
+typedef signed char i64;
+#elif EXTMOD_EXPECTED_INT64_MIN==SHRT_MIN && SHRT_MAX==EXTMOD_EXPECTED_INT64_MAX
+typedef signed short i64;
+#elif EXTMOD_EXPECTED_INT64_MIN==INT_MIN && INT_MAX==EXTMOD_EXPECTED_INT64_MAX
+typedef signed int i64;
+#elif EXTMOD_EXPECTED_INT64_MIN==LONG_MIN && LONG_MAX==EXTMOD_EXPECTED_INT64_MAX
+typedef signed long int i64;
+#elif EXTMOD_EXPECTED_INT64_MIN==LLONG_MIN && LLONG_MAX==EXTMOD_EXPECTED_INT64_MAX
+typedef signed long long int i64;
+#else
+    #ifdef EXTMOD_WARNING_ON_UNSUPPORTED_INTEGER_TYPE
+        #warning System not support 64 bit integer
+    #else
+        #error System not support 64 bit integer (and you know this!)
+    #endif // EXTMOD_WARNING_ON_UNSUPPORTED_INTEGER_TYPE
+    #undef EXTMOD_CHECK_SYSTEM_SUPPORT_INT64
+#endif // EXTMOD_EXPECTED_INT64_MIN && EXTMOD_EXPECTED_INT64_MAX
+
+#ifdef EXTMOD_CHECK_SYSTEM_SUPPORT_INT64
+typedef struct int64 int64;
+typedef int64* int64_;
+
+struct int64
+{
+    i64 i;
+};
+
+int64 Int64(i64);
+#endif // EXTMOD_CHECK_SYSTEM_SUPPORT_INT64
+
+#endif // _EXTMOD_PRIMITIVE_INT64_H_
